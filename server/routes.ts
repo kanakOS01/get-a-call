@@ -10,6 +10,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.sendFile(templatePath);
   });
 
+  // Serve drop icon
+  app.get('/api/drop-icon', (req, res) => {
+    const dropPath = path.resolve(process.cwd(), 'attached_assets', 'drop.png');
+    res.sendFile(dropPath);
+  });
+
+  // Serve pick icon
+  app.get('/api/pick-icon', (req, res) => {
+    const pickPath = path.resolve(process.cwd(), 'attached_assets', 'pick.png');
+    res.sendFile(pickPath);
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

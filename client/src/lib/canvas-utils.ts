@@ -97,13 +97,6 @@ async function drawCallInterface(ctx: CanvasRenderingContext2D, canvas: HTMLCanv
   ctx.fillStyle = '#FF3B30';
   ctx.fill();
 
-  // Decline icon - simple X symbol
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = 'bold 18px -apple-system, BlinkMacSystemFont, Inter, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('✕', declineX, buttonY);
-
   // Accept button (green)
   const acceptX = buttonsAreaX + buttonSize + buttonSpacing;
   ctx.beginPath();
@@ -111,12 +104,8 @@ async function drawCallInterface(ctx: CanvasRenderingContext2D, canvas: HTMLCanv
   ctx.fillStyle = '#34C759';
   ctx.fill();
 
-  // Accept icon - simple checkmark symbol
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = 'bold 18px -apple-system, BlinkMacSystemFont, Inter, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('✓', acceptX, buttonY);
+  // Load and draw button icons
+  await drawButtonIcons(ctx, declineX, acceptX, buttonY, buttonSize);
 }
 
 async function drawProfileImage(
@@ -152,6 +141,50 @@ async function drawProfileImage(
     };
     img.onerror = reject;
     img.src = imageSrc;
+  });
+}
+
+async function drawButtonIcons(
+  ctx: CanvasRenderingContext2D,
+  declineX: number,
+  acceptX: number,
+  buttonY: number,
+  buttonSize: number
+): Promise<void> {
+  const iconSize = buttonSize * 0.6; // Make icons 60% of button size
+  
+  // Load and draw decline icon (drop.png)
+  await new Promise<void>((resolve, reject) => {
+    const dropImg = new Image();
+    dropImg.onload = () => {
+      ctx.drawImage(
+        dropImg,
+        declineX - iconSize / 2,
+        buttonY - iconSize / 2,
+        iconSize,
+        iconSize
+      );
+      resolve();
+    };
+    dropImg.onerror = reject;
+    dropImg.src = '/api/drop-icon';
+  });
+
+  // Load and draw accept icon (pick.png)
+  await new Promise<void>((resolve, reject) => {
+    const pickImg = new Image();
+    pickImg.onload = () => {
+      ctx.drawImage(
+        pickImg,
+        acceptX - iconSize / 2,
+        buttonY - iconSize / 2,
+        iconSize,
+        iconSize
+      );
+      resolve();
+    };
+    pickImg.onerror = reject;
+    pickImg.src = '/api/pick-icon';
   });
 }
 
