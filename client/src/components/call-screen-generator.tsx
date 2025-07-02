@@ -158,7 +158,7 @@ export default function CallScreenGenerator() {
               <Input
                 id="companyName"
                 type="text"
-                placeholder="e.g., Mail0, Apple Inc."
+                placeholder="e.g., Meta"
                 value={formData.companyName}
                 onChange={(e) => handleInputChange('companyName', e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
@@ -173,7 +173,7 @@ export default function CallScreenGenerator() {
               <Input
                 id="personName"
                 type="text"
-                placeholder="e.g., Nizzy, John Smith"
+                placeholder="e.g., Mark Zuckerberg"
                 value={formData.personName}
                 onChange={(e) => handleInputChange('personName', e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
@@ -194,7 +194,7 @@ export default function CallScreenGenerator() {
                 {!showImagePreview ? (
                   <div>
                     <CloudUpload className="mx-auto text-4xl text-gray-400 mb-4" size={48} />
-                    <p className="text-lg font-medium text-gray-600 mb-2">Drop image here or click to browse</p>
+                    <p className="text-lg font-medium text-gray-600 mb-2">Drop image here or click to upload</p>
                     <p className="text-sm text-gray-500">PNG, JPG up to 5MB</p>
                   </div>
                 ) : (
@@ -229,7 +229,7 @@ export default function CallScreenGenerator() {
                   Generating...
                 </>
               ) : (
-                'Generate Call Screen'
+                'Generate Call Banner'
               )}
             </Button>
           </div>
@@ -239,9 +239,10 @@ export default function CallScreenGenerator() {
       {/* Preview Section */}
       <Card className="bg-white rounded-xl shadow-sm border border-gray-200">
         <CardContent className="p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-semibold text-gray-900">Preview</h2>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+            <h2 className="text-xl font-semibold text-gray-900">Call Banner</h2>
             <div className="flex space-x-2">
+              {/* Buttons */}
               <Button
                 onClick={handleCopy}
                 disabled={!generatedImage || copyStatus === 'copying'}
@@ -272,9 +273,8 @@ export default function CallScreenGenerator() {
           <div className="relative bg-gray-100 rounded-lg overflow-hidden" style={{ aspectRatio: '5/1' }}>
             {!generatedImage ? (
               <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-500">
-                <Smartphone className="text-6xl mb-4" size={64} />
                 <p className="text-lg font-medium mb-2">Call Banner Preview</p>
-                <p className="text-sm text-center px-4">Fill in the details above and click "Generate" to see your iPhone-style call banner</p>
+                {/* <p className="text-sm text-center px-4">Enter the details and click "Generate" to create your custom call banner with Get a Call</p> */}
               </div>
             ) : (
               <img 
