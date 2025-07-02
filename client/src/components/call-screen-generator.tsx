@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -142,6 +142,17 @@ export default function CallScreenGenerator() {
     });
   };
 
+  useEffect(() => {
+    if (!generatedImage && canvasRef.current) {
+      const defaultData = {
+        companyName: "Meta",
+        personName: "Mark Zuckerberg",
+        profileImage: null,
+      };
+      generateCallScreen(canvasRef.current, defaultData).then(setGeneratedImage);
+    }
+  }, [generatedImage]);
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
       {/* Form Section */}
@@ -272,9 +283,8 @@ export default function CallScreenGenerator() {
           {/* Canvas Container */}
           <div className="relative bg-gray-100 rounded-lg overflow-hidden" style={{ aspectRatio: '5/1' }}>
             {!generatedImage ? (
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-500">
-                <p className="text-lg font-medium mb-2">Call Banner Preview</p>
-                {/* <p className="text-sm text-center px-4">Enter the details and click "Generate" to create your custom call banner with Get a Call</p> */}
+              <div className="absolute inset-0 flex items-center justify-center w-full h-full bg-white">
+                <Loader2 className="animate-spin text-gray-400" size={40} />
               </div>
             ) : (
               <img 
