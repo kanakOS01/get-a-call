@@ -8,19 +8,12 @@ export async function generateCallScreen(canvas: HTMLCanvasElement, formData: Fo
   const ctx = canvas.getContext('2d');
   if (!ctx) throw new Error('Canvas context not available');
 
-  // Set canvas dimensions (iPhone aspect ratio)
-  canvas.width = 1080;
-  canvas.height = 1920;
+  // Set canvas dimensions (landscape for banner display)
+  canvas.width = 1200;
+  canvas.height = 400;
 
   // Clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // Create gradient background (iOS-style dark)
-  const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-  gradient.addColorStop(0, '#1a1a1a');
-  gradient.addColorStop(1, '#2d2d2d');
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Draw call interface elements
   await drawCallInterface(ctx, canvas, formData);
@@ -29,24 +22,39 @@ export async function generateCallScreen(canvas: HTMLCanvasElement, formData: Fo
 }
 
 async function drawCallInterface(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, formData: FormData) {
-  // Set font family
-  ctx.fontFamily = 'Inter, -apple-system, BlinkMacSystemFont, sans-serif';
+  // Create a subtle background gradient for the main screen
+  const backgroundGradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  backgroundGradient.addColorStop(0, '#f0f0f5');
+  backgroundGradient.addColorStop(1, '#e8e8ed');
+  ctx.fillStyle = backgroundGradient;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Top status bar area
-  ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 32px Inter, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('Incoming call', canvas.width / 2, 150);
+  // Draw the pill-shaped call banner
+  const bannerWidth = 1000;
+  const bannerHeight = 180;
+  const bannerX = (canvas.width - bannerWidth) / 2;
+  const bannerY = 80;
+  const bannerRadius = bannerHeight / 2;
 
-  // Company name (smaller text)
-  ctx.fillStyle = '#cccccc';
-  ctx.font = '28px Inter, sans-serif';
-  ctx.fillText(formData.companyName, canvas.width / 2, 200);
+  // Add shadow for the banner
+  ctx.save();
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+  ctx.shadowBlur = 20;
+  ctx.shadowOffsetY = 8;
 
-  // Profile picture area
-  const profileX = canvas.width / 2;
-  const profileY = 450;
-  const profileRadius = 150;
+  // Draw pill-shaped banner background
+  ctx.beginPath();
+  ctx.roundRect(bannerX, bannerY, bannerWidth, bannerHeight, bannerRadius);
+  ctx.fillStyle = '#000000';
+  ctx.fill();
+
+  ctx.restore(); // Remove shadow
+
+  // Profile picture area (left side of banner)
+  const profileSize = 120;
+  const profileX = bannerX + 60 + profileSize / 2;
+  const profileY = bannerY + bannerHeight / 2;
+  const profileRadius = profileSize / 2;
 
   if (formData.profileImage) {
     await drawProfileImage(ctx, formData.profileImage, profileX, profileY, profileRadius);
@@ -54,35 +62,66 @@ async function drawCallInterface(ctx: CanvasRenderingContext2D, canvas: HTMLCanv
     // Default profile circle
     ctx.beginPath();
     ctx.arc(profileX, profileY, profileRadius, 0, 2 * Math.PI);
-    ctx.fillStyle = '#4a4a4a';
+    ctx.fillStyle = '#333333';
     ctx.fill();
     
     // Default person icon
     ctx.fillStyle = '#888888';
-    ctx.font = 'bold 80px sans-serif';
+    ctx.font = 'bold 40px -apple-system, BlinkMacSystemFont, Inter, sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('👤', profileX, profileY + 25);
+    ctx.textBaseline = 'middle';
+    ctx.fillText('👤', profileX, profileY);
   }
 
-  // Caller name (large)
-  ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 64px Inter, sans-serif';
+  // Text area (next to profile picture)
+  const textX = profileX + profileRadius + 30;
+  const textBaseY = bannerY + bannerHeight / 2;
+
+  // Company name (top line, smaller, gray)
+  ctx.fillStyle = '#AAAAAA';
+  ctx.font = '28px -apple-system, BlinkMacSystemFont, Inter, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(formData.companyName, textX, textBaseY - 20);
+
+  // Person name (bottom line, larger, white, bold)
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, Inter, sans-serif';
+  ctx.fillText(formData.personName, textX, textBaseY + 25);
+
+  // Action buttons (right side of banner)
+  const buttonSize = 60;
+  const buttonSpacing = 20;
+  const buttonsAreaX = bannerX + bannerWidth - 60 - (buttonSize * 2 + buttonSpacing);
+  const buttonY = bannerY + bannerHeight / 2;
+
+  // Decline button (red)
+  const declineX = buttonsAreaX;
+  ctx.beginPath();
+  ctx.arc(declineX, buttonY, buttonSize / 2, 0, 2 * Math.PI);
+  ctx.fillStyle = '#FF3B30';
+  ctx.fill();
+
+  // Decline icon (X)
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = 'bold 28px -apple-system, BlinkMacSystemFont, Inter, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText(formData.personName, canvas.width / 2, 700);
+  ctx.textBaseline = 'middle';
+  ctx.fillText('✕', declineX, buttonY);
 
-  // Call type
-  ctx.fillStyle = '#cccccc';
-  ctx.font = '36px Inter, sans-serif';
-  ctx.fillText('mobile', canvas.width / 2, 750);
+  // Accept button (green)
+  const acceptX = buttonsAreaX + buttonSize + buttonSpacing;
+  ctx.beginPath();
+  ctx.arc(acceptX, buttonY, buttonSize / 2, 0, 2 * Math.PI);
+  ctx.fillStyle = '#34C759';
+  ctx.fill();
 
-  // Action buttons area
-  drawActionButtons(ctx, canvas);
-
-  // Bottom text
-  ctx.fillStyle = '#cccccc';
-  ctx.font = '28px Inter, sans-serif';
+  // Accept icon (checkmark)
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = 'bold 28px -apple-system, BlinkMacSystemFont, Inter, sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText('Slide to answer', canvas.width / 2, 1650);
+  ctx.textBaseline = 'middle';
+  ctx.fillText('✓', acceptX, buttonY);
 }
 
 async function drawProfileImage(
@@ -121,37 +160,7 @@ async function drawProfileImage(
   });
 }
 
-function drawActionButtons(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
-  // Decline button (red circle)
-  const declineX = canvas.width / 2 - 200;
-  const declineY = 1500;
-  const buttonRadius = 80;
 
-  ctx.beginPath();
-  ctx.arc(declineX, declineY, buttonRadius, 0, 2 * Math.PI);
-  ctx.fillStyle = '#ff3b30';
-  ctx.fill();
-
-  // Accept button (green circle)
-  const acceptX = canvas.width / 2 + 200;
-  const acceptY = 1500;
-
-  ctx.beginPath();
-  ctx.arc(acceptX, acceptY, buttonRadius, 0, 2 * Math.PI);
-  ctx.fillStyle = '#34c759';
-  ctx.fill();
-
-  // Button icons
-  ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 48px sans-serif';
-  ctx.textAlign = 'center';
-  
-  // Decline icon (X)
-  ctx.fillText('✕', declineX, declineY + 15);
-  
-  // Accept icon (checkmark)
-  ctx.fillText('✓', acceptX, acceptY + 15);
-}
 
 export function downloadImage(dataUrl: string, filename: string) {
   const link = document.createElement('a');

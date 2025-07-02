@@ -1,8 +1,8 @@
-# Fake Call Screen Generator
+# iPhone Call Banner Generator
 
 ## Overview
 
-This is a full-stack web application that allows users to create realistic fake incoming call screens with custom company names, caller names, and profile pictures. The application generates high-quality PNG mockups that can be downloaded or copied to clipboard.
+This is a full-stack web application that allows users to create realistic iPhone-style incoming call banners with custom company names, caller names, and profile pictures. The application generates high-quality PNG banners that mimic the native iOS incoming call notification banner that appears at the top of the screen when receiving a call while using another app.
 
 The system follows a modern full-stack architecture with React frontend, Express backend, and PostgreSQL database using Drizzle ORM. The application is designed to be deployed on Replit with support for both development and production environments.
 
@@ -32,15 +32,16 @@ The system follows a modern full-stack architecture with React frontend, Express
 ## Key Components
 
 ### Core Application Logic
-- **Canvas Rendering**: HTML5 Canvas API for generating call screen mockups
+- **Canvas Rendering**: HTML5 Canvas API for generating iPhone-style call banners
 - **Image Processing**: Client-side image manipulation and download functionality
 - **Form Handling**: React Hook Form with Zod validation
 - **File Upload**: Drag-and-drop file upload with validation
+- **Banner Design**: Pill-shaped black banner with iOS-style layout and typography
 
 ### UI Components
-- **Call Screen Generator**: Main component for creating fake call screens
+- **Call Banner Generator**: Main component for creating iPhone-style call banners
 - **Form Controls**: Input fields, file upload areas, and action buttons
-- **Responsive Design**: Mobile-first approach with Tailwind breakpoints
+- **Responsive Design**: Landscape banner format with proper aspect ratio
 - **Toast Notifications**: User feedback for actions and errors
 
 ### Database Schema
@@ -51,9 +52,13 @@ The system follows a modern full-stack architecture with React frontend, Express
 
 1. **User Input**: Users fill form with company name, person name, and optional profile image
 2. **Image Processing**: Profile images are validated and converted to base64 data URLs
-3. **Canvas Generation**: HTML5 Canvas API creates realistic call screen mockup
-4. **Export Options**: Generated images can be downloaded as PNG or copied to clipboard
-5. **Asset Serving**: Static assets served from attached_assets directory
+3. **Banner Generation**: HTML5 Canvas API creates iPhone-style pill-shaped call banner with:
+   - Black rounded background with drop shadow
+   - Circular profile image on left side
+   - Company name (gray) and person name (white bold) text
+   - Red decline and green accept action buttons on right
+4. **Export Options**: Generated banners can be downloaded as PNG or copied to clipboard
+5. **Responsive Design**: Banner displayed in 3:1 aspect ratio container for optimal viewing
 
 ## External Dependencies
 
@@ -95,8 +100,14 @@ The system follows a modern full-stack architecture with React frontend, Express
 
 ## Changelog
 
-Changelog:
-- July 02, 2025. Initial setup
+- July 02, 2025: Initial setup with full-screen call screen generator
+- July 02, 2025: Redesigned to iPhone-style pill-shaped call banner with:
+  - Black rounded banner with drop shadow effects
+  - Left-aligned circular profile image
+  - Company name in gray and person name in white bold text
+  - Right-aligned red decline and green accept buttons
+  - Landscape 3:1 aspect ratio format (1200x400px)
+  - iOS-style typography using SF Pro/Inter fonts
 
 ## User Preferences
 

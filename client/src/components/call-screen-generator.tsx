@@ -269,29 +269,29 @@ export default function CallScreenGenerator() {
           </div>
 
           {/* Canvas Container */}
-          <div className="relative bg-gray-100 rounded-lg overflow-hidden" style={{ aspectRatio: '9/16' }}>
+          <div className="relative bg-gray-100 rounded-lg overflow-hidden" style={{ aspectRatio: '3/1' }}>
             {!generatedImage ? (
               <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-500">
                 <Smartphone className="text-6xl mb-4" size={64} />
-                <p className="text-lg font-medium mb-2">Call Screen Preview</p>
-                <p className="text-sm text-center px-4">Fill in the details above and click "Generate" to see your fake call screen</p>
+                <p className="text-lg font-medium mb-2">Call Banner Preview</p>
+                <p className="text-sm text-center px-4">Fill in the details above and click "Generate" to see your iPhone-style call banner</p>
               </div>
             ) : (
               <img 
                 src={generatedImage} 
-                alt="Generated call screen" 
+                alt="Generated call banner" 
                 className="w-full h-full object-contain"
               />
             )}
             <canvas
               ref={canvasRef}
               className="hidden"
-              width={1080}
-              height={1920}
+              width={1200}
+              height={400}
             />
           </div>
 
-          {/* Call Screen Stats */}
+          {/* Call Banner Stats */}
           <div className="mt-4 grid grid-cols-2 gap-4 text-sm text-gray-600">
             <div className="flex items-center">
               <ImageIcon className="mr-2" size={16} />
@@ -299,7 +299,7 @@ export default function CallScreenGenerator() {
             </div>
             <div className="flex items-center">
               <ExpandIcon className="mr-2" size={16} />
-              <span>Dimensions: 1080x1920</span>
+              <span>Dimensions: 1200x400</span>
             </div>
           </div>
         </CardContent>
