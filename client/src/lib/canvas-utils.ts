@@ -117,6 +117,7 @@ async function drawProfileImage(
 ): Promise<void> {
   return new Promise((resolve, reject) => {
     const img = new Image();
+    img.crossOrigin = 'anonymous';
     img.onload = () => {
       ctx.save();
       ctx.beginPath();
@@ -156,6 +157,7 @@ async function drawButtonIcons(
   // Load and draw decline icon (drop.png)
   await new Promise<void>((resolve, reject) => {
     const dropImg = new Image();
+    dropImg.crossOrigin = 'anonymous';
     dropImg.onload = () => {
       ctx.drawImage(
         dropImg,
@@ -167,12 +169,13 @@ async function drawButtonIcons(
       resolve();
     };
     dropImg.onerror = reject;
-    dropImg.src = '/api/drop-icon';
+    dropImg.src = import.meta.env.BASE_URL + 'assets/drop.png';
   });
 
   // Load and draw accept icon (pick.png)
   await new Promise<void>((resolve, reject) => {
     const pickImg = new Image();
+    pickImg.crossOrigin = 'anonymous';
     pickImg.onload = () => {
       ctx.drawImage(
         pickImg,
@@ -184,11 +187,9 @@ async function drawButtonIcons(
       resolve();
     };
     pickImg.onerror = reject;
-    pickImg.src = '/api/pick-icon';
+    pickImg.src = import.meta.env.BASE_URL + 'assets/pick.png';
   });
 }
-
-
 
 export function downloadImage(dataUrl: string, filename: string) {
   const link = document.createElement('a');

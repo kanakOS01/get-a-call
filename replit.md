@@ -2,31 +2,21 @@
 
 ## Overview
 
-This is a full-stack web application that allows users to create realistic iPhone-style incoming call banners with custom company names, caller names, and profile pictures. The application generates high-quality PNG banners that mimic the native iOS incoming call notification banner that appears at the top of the screen when receiving a call while using another app.
-
-The system follows a modern full-stack architecture with React frontend, Express backend, and PostgreSQL database using Drizzle ORM. The application is designed to be deployed on Replit with support for both development and production environments.
+This is a web application that allows users to create realistic iPhone-style incoming call banners with custom company names, caller names, and profile pictures. The application generates high-quality PNG banners that mimic the native iOS incoming call notification banner that appears at the top of the screen when receiving a call while using another app.
 
 ## System Architecture
 
 ### Frontend Architecture
 - **Framework**: React 18 with TypeScript
 - **Routing**: Wouter for client-side routing
-- **State Management**: TanStack Query for server state and React hooks for local state
+- **State Management**: React hooks for local state
 - **UI Components**: Radix UI primitives with shadcn/ui component library
 - **Styling**: Tailwind CSS with CSS variables for theming
 - **Build Tool**: Vite for fast development and optimized production builds
 
-### Backend Architecture
-- **Runtime**: Node.js with Express.js framework
-- **Language**: TypeScript with ES modules
-- **Database**: PostgreSQL with Drizzle ORM
-- **Session Management**: In-memory storage (MemStorage class)
-- **Development**: Hot module replacement via Vite middleware
-
 ### Development Setup
-- **Monorepo Structure**: Client and server code in separate directories with shared schemas
-- **Path Aliases**: Configured for clean imports (@/, @shared/, @assets/)
-- **Development Server**: Vite dev server with Express API proxy
+- **Path Aliases**: Configured for clean imports (@/, @assets/)
+- **Development Server**: Vite dev server
 - **Error Handling**: Runtime error overlay for development
 
 ## Key Components
@@ -43,10 +33,6 @@ The system follows a modern full-stack architecture with React frontend, Express
 - **Form Controls**: Input fields, file upload areas, and action buttons
 - **Responsive Design**: Landscape banner format with proper aspect ratio
 - **Toast Notifications**: User feedback for actions and errors
-
-### Database Schema
-- **Users Table**: Basic user authentication schema (id, username, password)
-- **Extensible Design**: Schema structure ready for additional features
 
 ## Data Flow
 
@@ -66,14 +52,7 @@ The system follows a modern full-stack architecture with React frontend, Express
 - **UI Framework**: React ecosystem (React, React-DOM, React Hook Form)
 - **UI Components**: Radix UI primitives for accessible components
 - **Styling**: Tailwind CSS with class-variance-authority for component variants
-- **State Management**: TanStack Query for server state synchronization
 - **Utilities**: clsx for conditional classes, date-fns for date handling
-
-### Backend Dependencies
-- **Web Framework**: Express.js with TypeScript support
-- **Database**: Drizzle ORM with PostgreSQL dialect
-- **Database Driver**: Neon serverless PostgreSQL adapter
-- **Development**: tsx for TypeScript execution, esbuild for production builds
 
 ### Development Tools
 - **Build System**: Vite with React plugin and runtime error overlay
@@ -85,17 +64,14 @@ The system follows a modern full-stack architecture with React frontend, Express
 
 ### Production Build
 - **Frontend**: Vite builds optimized static assets to dist/public
-- **Backend**: esbuild bundles server code to dist/index.js
 - **Assets**: Static assets served from attached_assets directory
 
 ### Environment Configuration
-- **Database**: PostgreSQL connection via DATABASE_URL environment variable
 - **Development**: NODE_ENV=development for dev server with HMR
 - **Production**: NODE_ENV=production for optimized builds
 
 ### Replit Deployment
-- **Scripts**: Configured npm scripts for dev, build, and start
-- **Port Configuration**: Express server with proper port binding
+- **Scripts**: Configured npm scripts for dev, build, and preview
 - **Asset Serving**: Static file serving for production builds
 
 ## Changelog
