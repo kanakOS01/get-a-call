@@ -106,8 +106,13 @@ The system follows a modern full-stack architecture with React frontend, Express
   - Left-aligned circular profile image
   - Company name in gray and person name in white bold text
   - Right-aligned red decline and green accept buttons
-  - Landscape 3:1 aspect ratio format (1200x400px)
+  - Landscape 5:1 aspect ratio format (1000x200px)
   - iOS-style typography using SF Pro/Inter fonts
+- July 02, 2025: Updated banner generator with:
+  - Transparent background for generated images
+  - Fixed download button visibility issue
+  - Reduced banner dimensions to 1000x200px
+  - Optimized layout for smaller banner size
 
 ## User Preferences
 

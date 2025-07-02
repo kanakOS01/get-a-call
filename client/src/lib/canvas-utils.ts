@@ -9,8 +9,8 @@ export async function generateCallScreen(canvas: HTMLCanvasElement, formData: Fo
   if (!ctx) throw new Error('Canvas context not available');
 
   // Set canvas dimensions (landscape for banner display)
-  canvas.width = 1200;
-  canvas.height = 400;
+  canvas.width = 1000;
+  canvas.height = 200;
 
   // Clear canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -22,18 +22,13 @@ export async function generateCallScreen(canvas: HTMLCanvasElement, formData: Fo
 }
 
 async function drawCallInterface(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, formData: FormData) {
-  // Create a subtle background gradient for the main screen
-  const backgroundGradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-  backgroundGradient.addColorStop(0, '#f0f0f5');
-  backgroundGradient.addColorStop(1, '#e8e8ed');
-  ctx.fillStyle = backgroundGradient;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  // Draw the pill-shaped call banner
-  const bannerWidth = 1000;
-  const bannerHeight = 180;
-  const bannerX = (canvas.width - bannerWidth) / 2;
-  const bannerY = 80;
+  // Keep background transparent - no background fill
+  
+  // Draw the pill-shaped call banner (full width with margin)
+  const bannerWidth = canvas.width - 20; // 980px with 10px margins
+  const bannerHeight = canvas.height - 20; // 180px with 10px margins
+  const bannerX = 10; // 10px margin from left
+  const bannerY = 10; // 10px margin from top
   const bannerRadius = bannerHeight / 2;
 
   // Add shadow for the banner
@@ -51,8 +46,8 @@ async function drawCallInterface(ctx: CanvasRenderingContext2D, canvas: HTMLCanv
   ctx.restore(); // Remove shadow
 
   // Profile picture area (left side of banner)
-  const profileSize = 120;
-  const profileX = bannerX + 60 + profileSize / 2;
+  const profileSize = bannerHeight - 40; // Adjust to banner height with padding
+  const profileX = bannerX + 30 + profileSize / 2;
   const profileY = bannerY + bannerHeight / 2;
   const profileRadius = profileSize / 2;
 
@@ -67,32 +62,32 @@ async function drawCallInterface(ctx: CanvasRenderingContext2D, canvas: HTMLCanv
     
     // Default person icon
     ctx.fillStyle = '#888888';
-    ctx.font = 'bold 40px -apple-system, BlinkMacSystemFont, Inter, sans-serif';
+    ctx.font = 'bold 24px -apple-system, BlinkMacSystemFont, Inter, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText('👤', profileX, profileY);
   }
 
   // Text area (next to profile picture)
-  const textX = profileX + profileRadius + 30;
+  const textX = profileX + profileRadius + 20;
   const textBaseY = bannerY + bannerHeight / 2;
 
   // Company name (top line, smaller, gray)
   ctx.fillStyle = '#AAAAAA';
-  ctx.font = '28px -apple-system, BlinkMacSystemFont, Inter, sans-serif';
+  ctx.font = '18px -apple-system, BlinkMacSystemFont, Inter, sans-serif';
   ctx.textAlign = 'left';
   ctx.textBaseline = 'middle';
-  ctx.fillText(formData.companyName, textX, textBaseY - 20);
+  ctx.fillText(formData.companyName, textX, textBaseY - 12);
 
   // Person name (bottom line, larger, white, bold)
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = 'bold 36px -apple-system, BlinkMacSystemFont, Inter, sans-serif';
-  ctx.fillText(formData.personName, textX, textBaseY + 25);
+  ctx.font = 'bold 24px -apple-system, BlinkMacSystemFont, Inter, sans-serif';
+  ctx.fillText(formData.personName, textX, textBaseY + 15);
 
   // Action buttons (right side of banner)
-  const buttonSize = 60;
-  const buttonSpacing = 20;
-  const buttonsAreaX = bannerX + bannerWidth - 60 - (buttonSize * 2 + buttonSpacing);
+  const buttonSize = bannerHeight - 60; // Smaller buttons for the reduced height
+  const buttonSpacing = 15;
+  const buttonsAreaX = bannerX + bannerWidth - 30 - (buttonSize * 2 + buttonSpacing);
   const buttonY = bannerY + bannerHeight / 2;
 
   // Decline button (red)
@@ -102,9 +97,9 @@ async function drawCallInterface(ctx: CanvasRenderingContext2D, canvas: HTMLCanv
   ctx.fillStyle = '#FF3B30';
   ctx.fill();
 
-  // Decline icon (X)
+  // Decline icon - simple X symbol
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = 'bold 28px -apple-system, BlinkMacSystemFont, Inter, sans-serif';
+  ctx.font = 'bold 18px -apple-system, BlinkMacSystemFont, Inter, sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText('✕', declineX, buttonY);
@@ -116,9 +111,9 @@ async function drawCallInterface(ctx: CanvasRenderingContext2D, canvas: HTMLCanv
   ctx.fillStyle = '#34C759';
   ctx.fill();
 
-  // Accept icon (checkmark)
+  // Accept icon - simple checkmark symbol
   ctx.fillStyle = '#FFFFFF';
-  ctx.font = 'bold 28px -apple-system, BlinkMacSystemFont, Inter, sans-serif';
+  ctx.font = 'bold 18px -apple-system, BlinkMacSystemFont, Inter, sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText('✓', acceptX, buttonY);

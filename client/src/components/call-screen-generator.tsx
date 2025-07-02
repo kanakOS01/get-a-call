@@ -260,7 +260,7 @@ export default function CallScreenGenerator() {
               <Button
                 onClick={handleDownload}
                 disabled={!generatedImage}
-                className="px-4 py-2 bg-success text-white rounded-lg hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Download className="mr-2 h-4 w-4" />
                 Download
@@ -269,7 +269,7 @@ export default function CallScreenGenerator() {
           </div>
 
           {/* Canvas Container */}
-          <div className="relative bg-gray-100 rounded-lg overflow-hidden" style={{ aspectRatio: '3/1' }}>
+          <div className="relative bg-gray-100 rounded-lg overflow-hidden" style={{ aspectRatio: '5/1' }}>
             {!generatedImage ? (
               <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-500">
                 <Smartphone className="text-6xl mb-4" size={64} />
@@ -286,8 +286,8 @@ export default function CallScreenGenerator() {
             <canvas
               ref={canvasRef}
               className="hidden"
-              width={1200}
-              height={400}
+              width={1000}
+              height={200}
             />
           </div>
 
@@ -299,7 +299,7 @@ export default function CallScreenGenerator() {
             </div>
             <div className="flex items-center">
               <ExpandIcon className="mr-2" size={16} />
-              <span>Dimensions: 1200x400</span>
+              <span>Dimensions: 1000x200</span>
             </div>
           </div>
         </CardContent>
