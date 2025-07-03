@@ -145,7 +145,7 @@ async function drawButtonIcons(
   buttonY: number,
   buttonSize: number
 ): Promise<void> {
-  const iconSize = buttonSize * 0.9; // Make icons 90% of button size
+  const iconSize = buttonSize * 1; // Make icons 100% of button size
   
   // Load and draw decline icon (drop.png)
   await new Promise<void>((resolve, reject) => {
