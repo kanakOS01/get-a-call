@@ -43,7 +43,7 @@ async function drawCallInterface(ctx: CanvasRenderingContext2D, canvas: HTMLCanv
   const padding = 30;
 
   // === LEFT SIDE: Profile Image and Text ===
-  const profileSize = bannerHeight - 40;
+  const profileSize = bannerHeight - 58;
   const profileRadius = profileSize / 2;
   const profileX = bannerX + padding + profileRadius;
   const profileY = bannerY + bannerHeight / 2;
@@ -145,7 +145,7 @@ async function drawButtonIcons(
   buttonY: number,
   buttonSize: number
 ): Promise<void> {
-  const iconSize = buttonSize * 0.6; // Make icons 60% of button size
+  const iconSize = buttonSize * 0.9; // Make icons 90% of button size
   
   // Load and draw decline icon (drop.png)
   await new Promise<void>((resolve, reject) => {
